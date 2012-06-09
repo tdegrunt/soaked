@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<project name="Soaked" default="usage" basedir=".">
+
+  	<!-- ================================================================= -->
+ 	<!-- Set global properties for this build.                             -->
+	<!-- ================================================================= -->  
+	
+	<!-- source directory -->
+	<property name="src" value="src/"/>
+	<!-- build directory -->
+	<property name="build" value="build/"/>
+	<!-- library path -->
+	<property name="lib" value="lib/"/>
+	<!-- documents path -->
+	<property name="docs" value="docs/"/>
+	<!-- API documents path -->
+	<property name="apidocs" value="${docs}api/"/>
+		
+	<!-- main class -->
+	<property name="main.class" value="nl.degrunt.games.soaked.Soaked"/>
+	<!-- version number -->
+	<property name="version.number" value="0.1"/>
+	<!-- version number -->
+	<property name="manifest.src" value="manifest.mf.src"/>
+
+	<path id="project.class.path">
+		<pathelement path="${java.class.path}"/>
+		<pathelement location="${lib}xerces.jar"/>
+	</path>
+
+	<target name="init">
+    		<mkdir dir="${build}"/>
+    		<mkdir dir="${docs}"/>
+    		<mkdir dir="${apidocs}"/>
+    		<!-- Create the time stamp -->
+    		<tstamp/>
+  	</target>
+
+	<target name="usage">
+    		<echo>
+	These are the targets supported by this ANT build script:
+      	init    - inits the build directory, etc.
+    	compile - compiles the project
+    	link    - builds the jar files
+    	docs	- creates the doc files
+    	run     - runs Sokoban
+    	clean   - cleans all the .bak files, the Soaked.jar and the build directory
+    		</echo>
+  	</target>
+  
+  	<target name="compile" depends="init">
+    		<!-- Compile the java code from ${src} into ${build} -->
+    		<javac srcdir="${src}" destdir="${build}" classpathref="project.class.path"/>
+  	</target>
+
+  	<target name="prelink" depends="compile">
+    		<filter token="mainclass" value="${main.class}" />
+    		<filter token="version" value="${version.number}" />
+    		<copy file="${manifest.src}" tofile="manifest.mf" filtering="true"/>
+  	</target>
+  
+  	<target name="link" depends="prelink">
+    		<jar jarfile="${ant.project.name}.jar" compress="true" manifest="manifest.mf" basedir="${build}"/>
+  	</target>
+
+  	<target name="run" depends="link">
+    		<java jar="${ant.project.name}.jar" fork="true" classpathref="project.class.path" dir="${basedir}">
+    			<arg value="-server"/>
+    		</java>
+  	</target>
+
+  	<target name="docs" depends="init">
+    		<javadoc packagenames="nl.degrunt.*" sourcepath="${src}" classpathref="project.class.path" destdir="${apidocs}"/>
+  	</target>
+  
+  	<target name="clean">
+  		<delete>
+  			<fileset dir="." includes="**/*.bak"/>
+  		</delete>
+  		<delete file="Soaked.jar"/>
+  		<delete includeEmptyDirs="true" >
+    			<fileset dir="build" />
+  		</delete>
+  	</target>
+
+</project>
+

@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-Class: @mainclass@
+Created-By: Tom de Grunt (tom@degrunt.nl)
+
+Name: nl/degrunt/games/soaked
+Implementation-Title: soaked
+Implementation-Version: @version@
+Implementation-Vendor: "Tom de Grunt (tom@degrunt.nl)"
