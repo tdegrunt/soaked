@@ -5,7 +5,7 @@ It's a Sokoban Java Applet. I hope it is of use to someone.
 
 ## License
 
-barcode is licensed under MIT license.
+soaked is licensed under MIT license.
 
 	Copyright (C) 2011 Tom de Grunt <tom@degrunt.nl>
 
